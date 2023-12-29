@@ -22,5 +22,6 @@ urlpatterns = [
     path('product/', include('api1.urls')),
     path('products/', include('second_app.urls')),
     path('datas/', include('api3.urls')),
-    path('students/', include('student_api.urls'))
+    path('students/', include('student_api.urls')),
+    path('canada/', include('canada.urls'))
 ]
