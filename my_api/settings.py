@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'second_app',
     'student.apps.StudentConfig',
     'courses.apps.CoursesConfig',
+    'canada',
 ]
 
 MIDDLEWARE = [
