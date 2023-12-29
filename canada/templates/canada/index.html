@@ -44,7 +44,7 @@ Bootstrap 5 HTML CSS Template
                         <a class="navbar-brand d-flex align-items-center" href="index.html">
                             
                             <img src="{% static 'images/coffee-beans.png' %}" class="navbar-brand-image img-fluid" alt="Barista Cafe Template">
-                            Barista
+                            Kisii
                         </a>
         
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@ Bootstrap 5 HTML CSS Template
                         <div class="row align-items-center">
 
                             <div class="col-lg-6 col-12 mx-auto">
-                                <em class="small-text">welcome to Barista.co</em>
+                                <em class="small-text">welcome Kisii</em>
                                 
                                 <h1>Cafe Klang</h1>
 
@@ -109,7 +109,11 @@ Bootstrap 5 HTML CSS Template
                         </div>
                     </div>
 
-                    <div class="hero-slides"></div>
+                    <div class="hero-slides">
+                        <img src="{% static 'images/slides/sincere-laugh-showing-picture-smartphone-casual-meeting-with-best-friends-restaurant-terrace.jpg' %}" alt="Slide 1">
+  <img src="{% static 'images/happy-waitress-giving-coffee-customers-while-serving-them-coffee-shop.jpg' %}" alt="Slide 2">
+  <img src="{% static 'images/young-female-barista-wear-face-mask-serving-take-away-hot-coffee-paper-cup-consumer-cafe.jpg' %}" alt="Slide 3">
+                    </div>
                 </section>
 
 
@@ -668,8 +672,16 @@ Bootstrap 5 HTML CSS Template
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/jquery.sticky.js' %}"></script>
         <script src="{% static 'js/click-scroll.js' %}"></script>
-        <script src="{% static 'js/vegas.min.js' %}"></script>
-        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="{% static '/js/vegas.min.js' %}"></script>
+        <script src="{% static '/js/custom.js' %}"></script>
+
+        <script>
+            var image1Url = "{% static 'images/slides/sincere-laugh-showing-picture-smartphone-casual-meeting-with-best-friends-restaurant-terrace.jpg' %}";
+            var image2Url = "{% static 'images/happy-waitress-giving-coffee-customers-while-serving-them-coffee-shop.jpg' %}";
+            var image3Url = "{% static 'images/young-female-barista-wear-face-mask-serving-take-away-hot-coffee-paper-cup-consumer-cafe.jpg' %}";
+          </script>
+          
+         
 
     </body>
 </html>
