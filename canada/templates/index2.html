@@ -47,11 +47,11 @@
                 <h1>CSS3 <span>Fullscreen Slideshow</span></h1>
                 <h2>A CSS-only slideshow for background images</h2>
 				<p class="codrops-demos">
-					<a href="index.html">Demo 1</a>
-					<a class="current-demo" href="index2.html">Demo 2</a>
-					<a href="index3.html">Demo 3</a>
-					<a href="index4.html">Demo 4</a>
-				</p>
+                    <a href="{% url 'demo1' %}">Demo 1</a>
+                    <a class="current-demo" href="{% url 'demo2' %}">Demo 2</a>
+                    <a href="{% url 'demo3' %}">Demo 3</a>
+                    <a href="{% url 'demo4' %}">Demo 4</a>
+                </p>
             </header>
         </div>
     </body>
