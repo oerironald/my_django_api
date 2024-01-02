@@ -18,6 +18,11 @@ def index3(request):
     return render(request,'canada/index3.html')
 
 
+def index4(request):
+    
+    return render(request,'canada/index4.html')
+
+
 
 
 # Create your views here.
