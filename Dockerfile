@@ -13,7 +13,6 @@ RUN pip install -r requirements.txt
 # Copy the Django project code to the container
 COPY . .
 
-ENTRYPOINT [ "ginicorn", "core.wsgi" ]
 
 # Expose the port on which your Django app will run (usually 7903)
 EXPOSE 7903
