@@ -10,11 +10,14 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 
+# Copy the Nginx configuration file to the container
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Copy the Django project code to the container
 COPY . .
 
-# Expose the port on which your Django app will run (usually 7903)
-EXPOSE 7903
+# Expose the port on which Nginx will listen (usually 80)
+EXPOSE 80
 
-# Define the command to run your Django app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:7903"]
+# Start Nginx
+CMD service nginx start && python manage.py runserver 0.0.0.0:7903

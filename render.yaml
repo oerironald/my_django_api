@@ -1,0 +1,6 @@
+services:
+  - name: nginx
+    type: web
+    buildCommand: 'echo Nothing to build'
+    startCommand: 'nginx -g "daemon off;"'
+    port: 8080
