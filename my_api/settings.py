@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@)&dtdq_y9)j@v*txgj#8%6r)^g+ae1fr=(5bk=iu_vmvw6@r6'
 
 # SECURITY WARNINGcanada/static: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'canada',
     'clinic',
+    'daraja_api',
     
 ]
 
@@ -151,3 +152,14 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CALL_BACK_URL = "https://ominous-system-wg6x6w4vjjpfgr59-8000.app.github.dev/daraja/push"
+BUSINESS_SHORT_CODE = "174379"
+TRANSACTION_TYPE = ""
+TRANSACTION_DESCRIPTION = ""
+ACCOUNT_REFFERENCE =  ""
+API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+LIPANAMPESA_PASSKEY = ""
+CONSUMER_KEY = "grveYMulfkiAstAFpY72XDlavw6gRt4B"
+CONSUMER_SECRET = "UM8yA9Op0O59Yrvi"
