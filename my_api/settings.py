@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'daraja_api',
     'django_daraja',
     
+    
 ]
 
 MIDDLEWARE = [
