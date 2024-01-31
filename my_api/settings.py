@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'canada',
     'clinic',
     'daraja_api',
+    'django_daraja',
     
 ]
 
@@ -152,14 +153,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+MPESA_ENVIRONMENT = 'sandbox'
+MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
 CALL_BACK_URL = "https://ominous-system-wg6x6w4vjjpfgr59-8000.app.github.dev/daraja/push"
-BUSINESS_SHORT_CODE = "174379"
-TRANSACTION_TYPE = ""
-TRANSACTION_DESCRIPTION = ""
-ACCOUNT_REFFERENCE =  ""
+MPESA_EXPRESS_SHORTCODE = "174379"
+MPESA_CONSUMER_KEY = 'grveYMulfkiAstAFpY72XDlavw6gRt4B'
+MPESA_CONSUMER_SECRET = 'UM8yA9Op0O59Yrvi'
 API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
 ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-LIPANAMPESA_PASSKEY = ""
-CONSUMER_KEY = "grveYMulfkiAstAFpY72XDlavw6gRt4B"
-CONSUMER_SECRET = "UM8yA9Op0O59Yrvi"
+
