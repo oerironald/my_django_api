@@ -80,11 +80,10 @@ def make_mpesa_payment_request(amount: str, phone: str) -> dict:
         
 
 
-def index(request):
+def index(request, phone_number, amount):
     cl = MpesaClient()
     # Use a Safaricom phone number that you have access to, for you to be able to view the prompt.
-    phone_number = '0725129000'
-    amount = 1
+    
     account_reference = 'reference'
     transaction_desc = 'Description'
     callback_url = 'https://ominous-system-wg6x6w4vjjpfgr59-8000.app.github.de'
@@ -97,3 +96,23 @@ def stk_push_callback(request):
         
         #return HttpResponse("STK Push in Django👋")
         return HttpResponse(data)
+
+
+
+
+def payment_form(request):
+    return render(request, 'daraja_api/index.html')
+
+def process_payment(request):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')
+        amount = int(request.POST.get('amount'))  # Convert amount to an integer
+
+        cl = MpesaClient()
+        account_reference = 'reference'
+        transaction_desc = 'Description'
+        callback_url = 'https://ominous-system-wg6x6w4vjjpfgr59-8000.app.github.de'
+        response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+        return HttpResponse(response)
+
+        return HttpResponseBadRequest("Invalid request method")
