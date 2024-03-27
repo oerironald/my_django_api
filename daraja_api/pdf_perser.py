@@ -1,4 +1,4 @@
-import os
+""" import os
 import pandas as pd
 import PyPDF2
 
@@ -34,4 +34,4 @@ for pdf_file in pdf_files:
 
 # Save the result to an Excel file
 output_file = os.path.join(base_directory, 'output.xlsx')
-result_df.to_excel(output_file, index=False)
+result_df.to_excel(output_file, index=False) """
