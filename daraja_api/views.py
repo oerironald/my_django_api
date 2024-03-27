@@ -15,11 +15,11 @@ import json
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse
 #import pandas as pd
-from pdfminer.high_level import extract_text
-from openpyxl import load_workbook
-from openpyxl import Workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
-from PyPDF2 import PdfReader
+#from pdfminer.high_level import extract_text
+#from openpyxl import load_workbook
+#from openpyxl import Workbook
+#from openpyxl.utils.dataframe import dataframe_to_rows
+#from PyPDF2 import PdfReader
 
 
 # Create your views here.
@@ -131,7 +131,7 @@ def process_payment(request):
         
 
 
-def extract_fields_from_pdf(file_path):
+""" def extract_fields_from_pdf(file_path):
     with open(file_path, 'rb') as file:
         pdf_reader = PdfReader(file)
         text = ''
@@ -202,6 +202,6 @@ def extract_fields(request):
 
             return render(request, 'daraja_api/results.html', {'excel_filepath': excel_filepath})
         else:
-            return render(request, 'daraja_api/no_results.html')
+            return render(request, 'daraja_api/no_results.html') """
 
-    return render(request, 'daraja_api/extract.html')
+    #return render(request, 'daraja_api/extract.html')
