@@ -1,6 +1,6 @@
 import os
-import re
-import PyPDF2
+#import re
+#import PyPDF2
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework.decorators import api_view
