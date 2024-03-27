@@ -14,7 +14,7 @@ import requests
 import json
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse
-import pandas as pd
+#import pandas as pd
 from pdfminer.high_level import extract_text
 from openpyxl import load_workbook
 from openpyxl import Workbook
