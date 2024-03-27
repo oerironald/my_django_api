@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Form</title>
+</head>
+<body>
+    <h1>Payment Form</h1>
+    <form method="post" action="{% url 'pay' %}">
+        {% csrf_token %}
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" name="phone_number" id="phone_number"><br><br>
+        <label for="amount">Amount:</label>
+        <input type="text" name="amount" id="amount"><br><br>
+        <input type="submit" value="Make Payment">
+    </form>
+</body>
+</html>

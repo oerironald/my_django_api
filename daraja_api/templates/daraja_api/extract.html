@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Field Extraction</title>
+</head>
+<body>
+    <h1>PDF Field Extraction</h1>
+    <form method="post" action="{% url 'extract_fields' %}">
+        {% csrf_token %}
+        <input type="submit" value="Extract Fields">
+    </form>
+</body>
+</html>

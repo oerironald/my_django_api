@@ -1,7 +1,12 @@
+import os
+import re
+import PyPDF2
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from my_api.settings import BASE_DIR
 from .access_token import generate_access_token
 from .utils import timestamp_conversion
 from .encode_base64 import generate_password
@@ -9,6 +14,13 @@ import requests
 import json
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse
+import pandas as pd
+from pdfminer.high_level import extract_text
+from openpyxl import load_workbook
+from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
+from PyPDF2 import PdfReader
+
 
 # Create your views here.
 
@@ -35,7 +47,7 @@ from django.http import HttpResponse
         # return Response(paymentResponseData)
 
 # def make_mpesa_payment_request(amount: str, phone: str) -> dict:
-#     access_token = generate_access_token()
+#     access_token = generate_access_token()excel_files
 #     formated_time = timestamp_conversion()
 #     decoded_password = generate_password(formated_time)
 
@@ -43,7 +55,7 @@ from django.http import HttpResponse
 
 #     request = {
 #         "BusinessShortCode": settings.BUSINESS_SHORT_CODE,
-#         "Password": decoded_password,
+#         "Password": decoded_password,'/workspaces/my_django_api/Documents/BG-From 14-9-23'
 #         "Timestamp": formated_time,
 #         "TransactionType": settings.TRANSACTION_TYPE,
 #         "Amount": amount,
@@ -117,3 +129,79 @@ def process_payment(request):
 
         return HttpResponseBadRequest("Invalid request method")
         
+
+
+def extract_fields_from_pdf(file_path):
+    with open(file_path, 'rb') as file:
+        pdf_reader = PdfReader(file)
+        text = ''
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+
+    # Process the extracted text to extract the desired fields
+    lines = text.split('\n')
+    fields = []
+    for line in lines:
+        if line.startswith('G02'):
+            fields = line.split()
+            break
+
+    if len(fields) == 9:
+        specimens = fields[0]
+        position = fields[1]
+        sample_id = fields[2]
+        result_1 = fields[3]
+        result_2 = fields[4]
+        result_3 = fields[5]
+        flags = fields[6]
+        accepted_by = fields[7]
+
+        return {
+            'specimens': specimens,
+            'position': position,
+            'sample_id': sample_id,
+            'result_1': result_1,
+            'result_2': result_2,
+            'result_3': result_3,
+            'flags': flags,
+            'accepted_by': accepted_by
+        }
+    else:
+        return None
+
+def extract_fields(request):
+    if request.method == 'POST':
+        pdf_folder = os.path.join(BASE_DIR, 'pdf_folder', 'BG')  # Replace with the actual path to your PDF folder
+
+        fields = set()
+        for filename in os.listdir(pdf_folder):
+            if filename.endswith(".pdf"):
+                filepath = os.path.join(pdf_folder, filename)
+                extracted_fields = extract_fields_from_pdf(filepath)
+                if extracted_fields is not None:
+                    fields.update(extracted_fields)
+
+        if fields:
+            # Save the fields to an Excel file
+            df = pd.DataFrame({'Fields': list(fields)})
+
+            excel_folder = os.path.join(BASE_DIR, 'excel_files')  # Replace with the path to the desired folder to store the Excel file
+            os.makedirs(excel_folder, exist_ok=True)  # Create the folder if it doesn't exist
+            excel_filepath = os.path.join(excel_folder, 'excel_file.xlsx')  # Replace with the desired filename for the Excel file
+
+            # Create a new workbook using openpyxl
+            workbook = Workbook()
+            worksheet = workbook.active
+
+            # Write the DataFrame to the worksheet
+            for row in dataframe_to_rows(df, index=False, header=True):
+                worksheet.append(row)
+
+            # Save the workbook
+            workbook.save(excel_filepath)
+
+            return render(request, 'daraja_api/results.html', {'excel_filepath': excel_filepath})
+        else:
+            return render(request, 'daraja_api/no_results.html')
+
+    return render(request, 'daraja_api/extract.html')

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extraction Results</title>
+</head>
+<body>
+    <h1>Extraction Results</h1>
+    {% if excel_filepath %}
+        <p>The fields have been saved to an Excel file. <a href="{{ excel_filepath }}">Download the Excel file</a></p>
+    {% endif %}
+</body>
+</html>
