@@ -9,5 +9,5 @@ urlpatterns = [
     # path('pay', views.stk_push_callback, name='mpesa_stk_push_callback'),
     path('payment', views.payment_form, name='payment'),
     path('paymentpro', views.process_payment, name='paymentpro'),
-    path('extract', views.extract_fields, name='extract_fields'),
+   # path('extract', views.extract_fields, name='extract_fields'),
 ]
