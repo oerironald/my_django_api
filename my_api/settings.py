@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Base directory of your Django project
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -23,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@)&dtdq_y9)j@v*txgj#8%6r)^g+ae1fr=(5bk=iu_vmvw6@r6'
 
 # SECURITY WARNINGcanada/static: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,6 +50,8 @@ INSTALLED_APPS = [
     'daraja_api',
     'django_daraja',
     'corsheaders',
+    'streamlitApp',
+    
     
     
     
@@ -151,6 +155,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 
 # Default primary key field type
@@ -165,4 +172,5 @@ MPESA_CONSUMER_KEY = 'grveYMulfkiAstAFpY72XDlavw6gRt4B'
 MPESA_CONSUMER_SECRET = 'UM8yA9Op0O59Yrvi'
 API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
 ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+
 

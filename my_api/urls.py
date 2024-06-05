@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.contrib.auth.models import User
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include('api.urls')),
     path('product/', include('api1.urls')),
     path('products/', include('second_app.urls')),
@@ -28,5 +29,7 @@ urlpatterns = [
     path('canada/', include('canada.urls')),
     path('clinic/', include('clinic.urls')),
     path('daraja/', include('daraja_api.urls')),
+    path('streamlit/', include('streamlitApp.urls')),
+    
     
 ]
