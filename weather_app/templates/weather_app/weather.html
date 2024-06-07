@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <form method="get" action="{% url 'weather_app:weather_view' %}">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" value="{{ request.GET.city|default:'New York' }}">
+        <button type="submit">Get Weather</button>
+    </form>
+    {% if weather_data %}
+        <h2>Weather for {{ weather_data.name }}</h2>
+        <p>Temperature: {{ weather_data.main.temp }}°C</p>
+        <p>Description: {{ weather_data.weather.0.description }}</p>
+        <p>Humidity: {{ weather_data.main.humidity }}%</p>
+        <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
+    {% elif error_message %}
+        <p>Error: {{ error_message }}</p>
+    {% else %}
+        <p>Loading...</p>
+    {% endif %}
+</body>
+</html>

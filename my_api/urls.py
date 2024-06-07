@@ -30,6 +30,7 @@ urlpatterns = [
     path('clinic/', include('clinic.urls')),
     path('daraja/', include('daraja_api.urls')),
     path('streamlit/', include('streamlitApp.urls')),
+    path('weather/', include('weather_app.urls')),
     
     
 ]
