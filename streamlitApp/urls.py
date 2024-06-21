@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import streamlit_view
 
 urlpatterns = [
-    path('', views.streamlit_app),
-    # Add other URL patterns for your Django application
+    path('', streamlit_view, name='streamlit_view'),
+    # Other URL patterns...
 ]

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .receipt {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-body {
+            margin-bottom: 20px;
+        }
+        .product-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .product-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .payment-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <div class="receipt-header">
+            <h1>Payment Receipt</h1>
+            <p>Thank you for your purchase!</p>
+        </div>
+
+        <div class="receipt-body">
+            <h2>Products Purchased:</h2>
+            <ul class="product-list">
+                {% for item in products_purchased %}
+                    <li class="product-item">
+                        <strong>{{ item.product.name }}</strong><br>
+                        <span>Price per Unit: ${{ item.product.price }}</span><br>
+                        <span>Quantity: {{ item.quantity }}</span><br>
+                        <span>Total Price: ${{ item.total_price }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="payment-info">
+            <h3>Payment Details:</h3>
+            <p>Total Amount: ${{ total_amount }}</p>
+            <p>Payment Method: {{ payment_method }}</p>
+        </div>
+        <a href="{{ return_url }}">Return to Payment Page</a>
+    </div>
+</body>
+</html>

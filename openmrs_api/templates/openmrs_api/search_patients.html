@@ -1,0 +1,15 @@
+<!-- patient_manager/search_patients.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Patients</title>
+</head>
+<body>
+    <h1>Search Patients</h1>
+    <form method="GET" action="{% url 'search_patients' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>

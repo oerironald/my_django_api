@@ -25,7 +25,7 @@ OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
 SECRET_KEY = 'django-insecure-@)&dtdq_y9)j@v*txgj#8%6r)^g+ae1fr=(5bk=iu_vmvw6@r6'
 
 # SECURITY WARNINGcanada/static: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'streamlitApp',
     'weather_app',
+    'covid19',
+    'openmrs_api',
+    'pos',
     
     
     
@@ -159,6 +162,19 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+OPENMRS_USERNAME = 'admin'
+OPENMRS_PASSWORD = 'Admin1234'
+
+CLICKSEND_USERNAME = 'joerironald@gmail.com'
+CLICKSEND_API_KEY = '89BEF4E6-B280-4F70-8427-8FFA8DDA0A53'
+
+# Celery Configuration Options
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
 
 
 # Default primary key field type

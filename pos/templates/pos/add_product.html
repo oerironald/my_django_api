@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_name').on('blur', function() {
+                var productName = $(this).val().trim();
+                if (productName !== '') {
+                    $.ajax({
+                        url: "{% url 'check_product_name' %}",
+                        data: {
+                            'name': productName
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.exists) {
+                                alert('Product with this name already exists!');
+                                $('#id_name').val('').focus();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Add Product</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Product</button>
+    </form>
+    <a href="{% url 'product_list' %}">Back to Product List</a>
+</body>
+</html>

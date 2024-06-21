@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Country Data</title>
+</head>
+<body>
+    <h1>COVID-19 Data by Country</h1>
+    <form method="get" action="">
+        <input type="text" id="countryInput" name="country" placeholder="Enter a country">
+        <input type="submit" value="Search">
+    </form>
+    {% if country_data %}
+    <h2>{{ country_data.country }}</h2>
+    <p>Total Cases: {{ country_data.cases }}</p>
+    <p>Total Deaths: {{ country_data.deaths }}</p>
+    <p>Total Recovered: {{ country_data.recovered }}</p>
+    <p>Last Updated: {{ country_data.updated }}</p>
+    {% endif %}
+</body>
+</html>

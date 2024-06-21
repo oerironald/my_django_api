@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Total Quantity</th>
+                <th>Total Amount</th>
+                <th>Actions</th> <!-- New column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in products %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>{{ item.product.quantity }} {{ item.product.unit }}</td>
+                    <td>{{ item.product.get_unit_display }}</td>
+                    <td>{{ item.product.quantity }}</td> <!-- Display total quantity -->
+                    <td>${{ item.total_amount }}</td> <!-- Display total amount -->
+                    <td>
+                        <a href="{% url 'update_product' item.product.pk %}">Update</a>
+                        <a href="{% url 'delete_product' item.product.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">No products available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total Quantity of All Products: {{ total_quantity }}</h3> <!-- Display total quantity of all products -->
+    <h3>Total Amount of All Products: ${{ total_amount }}</h3> <!-- Display total amount of all products -->
+    <a href="{% url 'add_product' %}">Add Product</a>
+    <a href="{% url 'process_payment' %}">Process Payment</a>
+    <a href="{% url 'add_customer' %}">Add Customer</a>
+</body>
+</html>

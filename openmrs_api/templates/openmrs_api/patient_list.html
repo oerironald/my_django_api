@@ -1,0 +1,19 @@
+<!-- patient_manager/patient_list.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient List</title>
+</head>
+<body>
+    <h1>Patient List</h1>
+    <ul>
+        {% for patient in patients %}
+            <li>{{ patient.uuid }} - {{ patient.display }}</li>
+        {% empty %}
+            <li>No patients found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'search_patients' %}">Back to Search</a>
+</body>
+</html>
