@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'daraja_api',
     'django_daraja',
     'corsheaders',
-    'streamlitApp',
     'weather_app',
     'covid19',
     'openmrs_api',
