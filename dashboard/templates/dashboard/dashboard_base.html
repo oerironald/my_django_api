@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="navbar">
+            <div class="navbar-left">
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="navbar-brand">Your Logo</div>
+            </div>
+            <div class="navbar-right">
+                <span class="contact-info">
+                    <i class="fas fa-envelope"></i> info@example.com
+                </span>
+                <span class="contact-info">
+                    <i class="fas fa-phone"></i> +1 234 567 8900
+                </span>
+                <a href="#" class="navbar-item">Profile</a>
+                <a href="#" class="navbar-item">Logout</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <aside class="sidebar" id="sidebar">
+                <ul>
+                    <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-th"></i> Apps <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'pos:product_list' %}"><i class="fas fa-user-md"></i> pos</a></li>
+                            <li><a href="#"><i class="fas fa-envelope"></i> Email</a></li>
+                            <li><a href="#"><i class="fas fa-tasks"></i> Tasks</a></li>
+                            <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                </ul>
+            </aside>
+
+            <main class="content">
+                {% block content %}
+                <h1>Welcome to the Dashboard</h1>
+                <p>Select an option from the sidebar to get started.</p>
+                {% endblock %}
+            </main>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

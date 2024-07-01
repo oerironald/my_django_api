@@ -27,7 +27,7 @@ def add_product(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            return redirect('pos:product_list')
     else:
         form = ProductForm()
     return render(request, 'pos/add_product.html', {'form': form})
@@ -70,7 +70,7 @@ def process_payment(request):
                 error_message = "The following products have insufficient stock:<br>"
                 for product_name, details in insufficient_stock.items():
                     error_message += f"{product_name}: Requested {details['requested_quantity']}, Available {details['available_stock']}<br>"
-                return HttpResponseBadRequest(f"{error_message}<br><a href='{reverse('process_payment')}'>Return to Payment</a>")
+                return HttpResponseBadRequest(f"{error_message}<br><a href='{reverse('pos:process_payment')}'>Return to Payment</a>")
 
             payment_method = payment_form.cleaned_data['payment_method']
 
@@ -78,7 +78,7 @@ def process_payment(request):
                 phone_number = request.POST.get('phone_number')
                 if phone_number:
                     amount = int(total_amount)  # Ensure the amount is an integer
-                    cl = MpesaClient()
+                    cl = MpesaClient()  # Initialize your Mpesa client here
                     account_reference = 'Jogoo Oeri'
                     transaction_desc = 'Payments'
                     callback_url = 'https://example.com/callback/'  # Replace with your callback URL
@@ -91,7 +91,7 @@ def process_payment(request):
                 'total_amount': total_amount,
                 'products_purchased': products_purchased,
                 'payment_method': payment_method,
-                'return_url': reverse('process_payment'),  # Generate URL to return to process_payment view
+                'return_url': reverse('pos:process_payment'),  # Generate URL to return to process_payment view
             })
 
     else:
@@ -124,7 +124,7 @@ def update_product(request, pk):
         form = ProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('product_list')  # Replace with the name of your product list URL
+            return redirect(reverse('pos:product_list'))  # Use the correct namespace
     else:
         form = ProductForm(instance=product)
     
@@ -136,7 +136,7 @@ def delete_product(request, pk):
     
     if request.method == 'POST':
         product.delete()
-        return redirect('product_list')  # Replace with the name of your product list URL
+        return redirect('pos:product_list')  # Replace with the name of your product list URL
     
     return render(request, 'pos/delete_product.html', {'product': product})
 
@@ -155,3 +155,19 @@ def check_stock(request, pk):
         'stock': product.quantity
     }
     return JsonResponse(data)
+
+
+def customer_records(request):
+    customers = Customer.objects.all()
+
+    return render(request, 'pos/customer_records.html', {
+        'customers': customers,
+    })
+
+
+def stock_records(request):
+    products = Product.objects.all()
+
+    return render(request, 'pos/stock_records.html', {
+        'products': products,
+    })

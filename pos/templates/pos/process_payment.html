@@ -1,139 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Process Payment</title>
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Process Payment{% endblock %}
+
+{% block extra_head %}
     <style>
         .form-row {
             margin-bottom: 10px;
-        }
-        #phone-number-field {
-            display: none;
         }
         .stock-info {
             color: red;
             font-weight: bold;
         }
     </style>
-</head>
-<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    // Add product form row
+    $('#add-form').click(function() {
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+        var newForm = $('#formset').find('.form-row:last').clone();
+        newForm.find(':input').each(function() {
+            var name = $(this).attr('name').replace('-' + (form_idx-1) + '-', '-' + form_idx + '-');
+            $(this).attr('name', name);
+            $(this).attr('id', 'id_' + name);
+            $(this).val('');
+        });
+        newForm.find('label').each(function() {
+            var newFor = $(this).attr('for').replace('-' + (form_idx-1) + '-', '-' + form_idx + '-');
+            $(this).attr('for', newFor);
+        });
+        $('#formset').append(newForm);
+        $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        calculateTotalAmount();  // Recalculate total amount after adding new form
+    });
+
+    // Function to calculate total amount based on selected products and quantities
+    function calculateTotalAmount() {
+        var totalAmount = 0;
+        var canProceed = true;
+        $('#formset .form-row').each(function() {
+            var price = $(this).find('[name$="-product"] option:selected').data('price');
+            var quantity = $(this).find('[name$="-quantity"]').val();
+            var stock = $(this).find('[name$="-product"] option:selected').data('stock');
+
+            if (price && quantity) {
+                if (quantity > stock || stock <= 0) {
+                    $(this).find('.stock-info').text('Warning: Quantity exceeds available stock!');
+                    canProceed = false;
+                } else {
+                    $(this).find('.stock-info').text('');
+                    totalAmount += price * quantity;
+                }
+            }
+        });
+
+        $('#total-amount-value').text(totalAmount.toFixed(2));
+        $('#submit-button').prop('disabled', !canProceed);  // Disable submit button if there are stock issues
+        if (!canProceed) {
+            $('#notification').text('Transaction cannot proceed due to stock issues.');
+        } else {
+            $('#notification').text('');
+        }
+    }
+
+    // Recalculate on change of product or quantity
+    $('#formset').on('change', '[name$="-product"], [name$="-quantity"]', function() {
+        calculateTotalAmount();  // Recalculate total amount
+        var formRow = $(this).closest('.form-row');
+        var productId = formRow.find('[name$="-product"]').val();
+        if (productId) {
+            // Example AJAX call to check stock (replace with your actual URL)
+            $.ajax({
+                url: `/pos/check-stock/${productId}/`,
+                dataType: 'json',
+                success: function(data) {
+                    formRow.find('.stock-info').text(`Available stock: ${data.stock}`);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching stock:', error);
+                }
+            });
+        }
+    });
+
+    // Initial calculation on page load
+    calculateTotalAmount();
+});
+
+    </script>
+{% endblock %}
+
+{% block content %}
     <h1>Process Payment</h1>
     <form method="post">
         {% csrf_token %}
         {{ payment_form.as_p }}
-
+    
         <div id="phone-number-field">
             <label for="id_phone_number">Phone Number:</label>
             <input type="text" name="phone_number" id="id_phone_number">
         </div>
-
+    
         <div id="formset">
             {{ formset.management_form }}
             {% for form in formset %}
                 <div class="form-row">
                     {{ form.as_p }}
-                    <span class="stock-info"></span> <!-- Placeholder for stock info -->
+                    <span class="stock-info"></span>
                 </div>
             {% endfor %}
         </div>
-
+    
         <button type="button" id="add-form">Add Product</button>
-
+    
         <div id="total-amount">
             <strong>Total Amount:</strong> <span id="total-amount-value">0</span>
         </div>
-
+    
         <div id="notification" style="color: red; font-weight: bold;"></div>
-
+    
         <button type="submit" id="submit-button">Pay</button>
     </form>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        const paymentMethodField = $('[name="payment_method"]');
-        const phoneNumberField = $('#phone-number-field');
-        const notificationDiv = $('#notification');
-        const submitButton = $('#submit-button'); // Select the submit button
-
-        paymentMethodField.change(function() {
-            if (this.value === 'mpesa') {
-                phoneNumberField.show();
-            } else {
-                phoneNumberField.hide();
-            }
-        });
-
-        $('#add-form').click(function() {
-            var form_idx = $('#id_form-TOTAL_FORMS').val();
-            var newForm = $('#formset').find('.form-row:last').clone();
-            newForm.find(':input').each(function() {
-                var name = $(this).attr('name').replace('-' + (form_idx-1) + '-', '-' + form_idx + '-');
-                $(this).attr('name', name);
-                $(this).attr('id', 'id_' + name);
-                $(this).val('');
-            });
-            newForm.find('label').each(function() {
-                var newFor = $(this).attr('for').replace('-' + (form_idx-1) + '-', '-' + form_idx + '-');
-                $(this).attr('for', newFor);
-            });
-            $('#formset').append(newForm);
-            $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-            calculateTotalAmount(); // Ensure to recalculate total amount after adding a new form
-        });
-
-        paymentMethodField.change(); // Initialize visibility of phone number field
-
-        function calculateTotalAmount() {
-            var totalAmount = 0;
-            var canProceed = true; // Flag to check if transaction can proceed
-            $('#formset .form-row').each(function() {
-                var price = $(this).find('[name$="-product"] option:selected').data('price');
-                var quantity = $(this).find('[name$="-quantity"]').val();
-                var stock = $(this).find('[name$="-product"] option:selected').data('stock');
-
-                if (price && quantity) {
-                    if (quantity > stock || stock <= 0) { // Check if quantity exceeds stock or stock is zero/negative
-                        $(this).find('.stock-info').text('Warning: Quantity exceeds available stock!');
-                        canProceed = false; // Cannot proceed if conditions are met
-                    } else {
-                        $(this).find('.stock-info').text(''); // Clear any previous warnings
-                        totalAmount += price * quantity;
-                    }
-                }
-            });
-
-            $('#total-amount-value').text(totalAmount.toFixed(2)); // Update total amount
-
-            // Enable or disable the submit button based on canProceed flag
-            submitButton.prop('disabled', !canProceed);
-            if (!canProceed) {
-                notificationDiv.text('Transaction cannot proceed due to stock issues.');
-            } else {
-                notificationDiv.text('');
-            }
-        }
-
-        $('#formset').on('change', '[name$="-product"], [name$="-quantity"]', function() {
-            calculateTotalAmount(); // Recalculate on any change in product or quantity
-            var formRow = $(this).closest('.form-row');
-            var productId = formRow.find('[name$="-product"]').val();
-            if (productId) {
-                $.ajax({
-                    url: `/check_stock/${productId}/`, // Adjust URL as per your Django URL configuration
-                    dataType: 'json',
-                    success: function(data) {
-                        formRow.find('.stock-info').text(`Available stock: ${data.stock}`);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching stock:', error);
-                    }
-                });
-            }
-        });
-
-        calculateTotalAmount(); // Initial calculation on page load
-    });
-    </script>
-</body>
-</html>
+    <a href="{% url 'pos:product_list' %}">Back to Product List</a>
+{% endblock %}

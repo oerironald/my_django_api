@@ -1,0 +1,12 @@
+<!-- account_detail.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Account Details</h1>
+<p>Account Number: {{ account.account_number }}</p>
+<p>User: {{ account.user.username }}</p>
+<p>Balance: ${{ account.balance }}</p>
+<a href="{% url 'bank:account_update' account.id %}">Edit</a>
+<a href="{% url 'bank:account_delete' account.id %}">Delete</a>
+<a href="{% url 'bank:account_list' %}">Back to List</a>
+{% endblock %}

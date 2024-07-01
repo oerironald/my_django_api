@@ -25,7 +25,7 @@ OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
 SECRET_KEY = 'django-insecure-@)&dtdq_y9)j@v*txgj#8%6r)^g+ae1fr=(5bk=iu_vmvw6@r6'
 
 # SECURITY WARNINGcanada/static: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False 
 
 ALLOWED_HOSTS = ['*']
 
@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'covid19',
     'openmrs_api',
     'pos',
+    'dashboard',
+    'bank',
     
     
     
@@ -190,4 +192,4 @@ MPESA_CONSUMER_SECRET = 'UM8yA9Op0O59Yrvi'
 API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
 ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
-
+AUTH_USER_MODEL = 'bank.User'

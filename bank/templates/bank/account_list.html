@@ -1,0 +1,19 @@
+<!-- account_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Accounts</h1>
+<a href="{% url 'bank:account_create' %}">Create New Account</a>
+<ul>
+{% for account in accounts %}
+    <li>
+        {{ account.account_number }} - {{ account.user.username }} - ${{ account.balance }}
+        <a href="{% url 'bank:account_detail' account.id %}">View</a>
+        <a href="{% url 'bank:account_update' account.id %}">Edit</a>
+        <a href="{% url 'bank:account_delete' account.id %}">Delete</a>
+    </li>
+{% empty %}
+    <li>No accounts found.</li>
+{% endfor %}
+</ul>
+{% endblock %}

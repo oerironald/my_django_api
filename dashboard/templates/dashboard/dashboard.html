@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Global COVID-19 Statistics</h1>
+        <form method="GET">
+            {{ form.as_p }}
+            <input type="submit" value="Get Data">
+        </form>
+        <p>Cases: {{ cases }}</p>
+        <p>Deaths: {{ deaths }}</p>
+        <p>Recovered: {{ recovered }}</p>
+        <img src="data:image/png;base64,{{ graph }}" alt="COVID-19 Statistics Chart">
+    </div>
+</body>
+</html>

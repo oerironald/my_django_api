@@ -21,7 +21,7 @@ from django.contrib.auth.models import User
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('api.urls')),
+    path('api', include('api.urls')),
     path('product/', include('api1.urls')),
     path('products/', include('second_app.urls')),
     path('datas/', include('api3.urls')),
@@ -34,7 +34,9 @@ urlpatterns = [
     path('covid19/', include('covid19.urls')),
     path('openmrs/', include('openmrs_api.urls')),
     path('pos/', include('pos.urls')),
+    path('', include('dashboard.urls')),
+    path('bank/', include('bank.urls')),
     
-    
+     
     
 ]

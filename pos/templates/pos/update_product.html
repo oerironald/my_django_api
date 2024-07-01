@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Product</title>
-</head>
-<body>
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Update Product{% endblock %}
+
+{% block content %}
     <h1>Update Product</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Update Product</button>
     </form>
-</body>
-</html>
+{% endblock %}
+

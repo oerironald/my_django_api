@@ -1,0 +1,17 @@
+<!-- templates/pos/customer_records.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Records</title>
+</head>
+<body>
+    <h1>Customer Records</h1>
+    <ul>
+        {% for customer in customers %}
+            <li>{{ customer.name }} - Email: {{ customer.email }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

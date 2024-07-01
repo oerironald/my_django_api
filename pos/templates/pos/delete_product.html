@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Delete Product</title>
-</head>
-<body>
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Delete Product{% endblock %}
+
+{% block content %}
     <h1>Delete Product</h1>
-    <p>Are you sure you want to delete '{{ product.name }}'?</p>
+    <p>Are you sure you want to delete the product "{{ product.name }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Confirm Delete</button>
-        <a href="{% url 'product_list' %}">Cancel</a>
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'pos:product_list' %}">Cancel</a>
     </form>
-</body>
-</html>
+{% endblock %}
