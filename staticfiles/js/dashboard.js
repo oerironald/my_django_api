@@ -23,20 +23,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', function(event) {
-        if (window.innerWidth <= 768 && !sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
-            sidebar.classList.remove('active');
-        }
-    });
-
     // Adjust layout on window resize
-    window.addEventListener('resize', function() {
+    function handleResize() {
         if (window.innerWidth > 768) {
             sidebar.classList.remove('active');
             content.style.marginLeft = '250px';
+            sidebar.style.maxHeight = 'none';
         } else {
             content.style.marginLeft = '0';
+            sidebar.style.maxHeight = sidebar.classList.contains('active') ? `calc(100vh - 64px)` : '0';
         }
-    });
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call once to set initial state
 });
