@@ -7,6 +7,35 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Add these responsive styles */
+        @media screen and (max-width: 768px) {
+            .navbar-right {
+                display: none;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                top: 60px;
+                bottom: 0;
+                width: 250px;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -62,5 +91,11 @@
     </div>
     <script src="{% static 'js/dashboard.js' %}"></script>
     {% block extra_js %}{% endblock %}
+    <script>
+        // Add this JavaScript to toggle the sidebar on mobile
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
