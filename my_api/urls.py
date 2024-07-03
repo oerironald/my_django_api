@@ -29,7 +29,6 @@ urlpatterns = [
     path('canada/', include('canada.urls')),
     path('clinic/', include('clinic.urls')),
     path('daraja/', include('daraja_api.urls')),
-    path('streamlit/', include('streamlitApp.urls')),
     path('weather/', include('weather_app.urls')),
     path('covid19/', include('covid19.urls')),
     path('openmrs/', include('openmrs_api.urls')),
