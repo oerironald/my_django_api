@@ -16,3 +16,4 @@ django-daraja==1.3.0
 django-cors-headers==3.8.0
 matplotlib
 pandas
+plotly
