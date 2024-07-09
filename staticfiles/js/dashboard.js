@@ -1,21 +1,44 @@
-// static/js/dashboard.js
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM content loaded');
+
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
-    const content = document.querySelector('.content');
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    const mainContent = document.querySelector('.main-content');
+
+    console.log('Sidebar toggle:', sidebarToggle);
+    console.log('Sidebar:', sidebar);
+
+    // Function to toggle sidebar
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
+        // Store the sidebar state in localStorage
+        localStorage.setItem('sidebarOpen', sidebar.classList.contains('active'));
+    }
 
     // Sidebar toggle
-    sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-        
-        // Only adjust content margin on larger screens
-        if (window.innerWidth > 768) {
-            content.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Toggle clicked');
+            toggleSidebar();
+        });
+    } else {
+        console.error('Sidebar toggle or sidebar not found');
+    }
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            e.target !== sidebarToggle) {
+            toggleSidebar();
         }
     });
 
     // Dropdown toggles
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     dropdownToggles.forEach(function(toggle) {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
@@ -23,18 +46,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Adjust layout on window resize
-    function handleResize() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.remove('active');
-            content.style.marginLeft = '250px';
-            sidebar.style.maxHeight = 'none';
-        } else {
-            content.style.marginLeft = '0';
-            sidebar.style.maxHeight = sidebar.classList.contains('active') ? `calc(100vh - 64px)` : '0';
-        }
+    // Check localStorage for sidebar state on page load
+    if (localStorage.getItem('sidebarOpen') === 'true') {
+        sidebar.classList.add('active');
+        document.body.classList.add('sidebar-open');
     }
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Call once to set initial state
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('active');
+            document.body.classList.remove('sidebar-open');
+        }
+    });
 });
