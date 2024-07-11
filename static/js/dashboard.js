@@ -1,6 +1,7 @@
 // dashboard.js
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    // Sidebar toggle functionality
     const sidebarToggleBtn = document.getElementById('sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.querySelector('.main-content');
@@ -47,8 +48,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             // Toggle the clicked dropdown
             dropdownItem.classList.toggle('open');
-
-            console.log('Dropdown clicked:', dropdownItem.classList.contains('open'));
         });
     });
 
@@ -72,11 +71,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    console.log('Dropdown toggles:', dropdownToggles);
-});
+    // Responsive navbar functionality
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
 
+    if (mobileMenuToggle && navbarMenu) {
+        mobileMenuToggle.addEventListener('click', function() {
+            navbarMenu.classList.toggle('show');
+        });
 
-// Add this to your dashboard.js file
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('current-year').textContent = new Date().getFullYear();
+        // Close the menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!navbarMenu.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                navbarMenu.classList.remove('show');
+            }
+        });
+    } else {
+        console.error('Mobile menu toggle or navbar menu not found');
+    }
+
+    // Update copyright year
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    } else {
+        console.error('Current year element not found');
+    }
 });
