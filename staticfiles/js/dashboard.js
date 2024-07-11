@@ -1,62 +1,76 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM content loaded');
+// dashboard.js
 
-    const sidebarToggle = document.getElementById('sidebar-toggle');
+document.addEventListener('DOMContentLoaded', (event) => {
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.querySelector('.main-content');
 
-    console.log('Sidebar toggle:', sidebarToggle);
-    console.log('Sidebar:', sidebar);
-
-    // Function to toggle sidebar
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        document.body.classList.toggle('sidebar-open');
-        // Store the sidebar state in localStorage
-        localStorage.setItem('sidebarOpen', sidebar.classList.contains('active'));
-    }
-
-    // Sidebar toggle
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Toggle clicked');
-            toggleSidebar();
+    if (sidebarToggleBtn && sidebar && mainContent) {
+        sidebarToggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hide');
+            mainContent.classList.toggle('responsive');
         });
     } else {
-        console.error('Sidebar toggle or sidebar not found');
+        console.error('One or more elements not found for sidebar toggle');
     }
 
-    // Close sidebar when clicking outside
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768 && 
-            sidebar.classList.contains('active') && 
-            !sidebar.contains(e.target) && 
-            e.target !== sidebarToggle) {
-            toggleSidebar();
+    function handleResize() {
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('hide');
+            mainContent.classList.remove('responsive');
+        } else {
+            sidebar.classList.add('hide');
+            mainContent.classList.add('responsive');
         }
-    });
+    }
 
-    // Dropdown toggles
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            this.parentNode.classList.toggle('active');
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    // Dropdown toggle
+    const dropdownToggles = document.querySelectorAll('.sidebar-menu .dropdown > a');
+    
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const dropdownItem = toggle.closest('.dropdown');
+
+            // Close all other open dropdowns
+            dropdownToggles.forEach(otherToggle => {
+                const otherDropdownItem = otherToggle.closest('.dropdown');
+                if (otherDropdownItem !== dropdownItem) {
+                    otherDropdownItem.classList.remove('open');
+                }
+            });
+
+            // Toggle the clicked dropdown
+            dropdownItem.classList.toggle('open');
+
+            console.log('Dropdown clicked:', dropdownItem.classList.contains('open'));
         });
     });
 
-    // Check localStorage for sidebar state on page load
-    if (localStorage.getItem('sidebarOpen') === 'true') {
-        sidebar.classList.add('active');
-        document.body.classList.add('sidebar-open');
-    }
-
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.remove('active');
-            document.body.classList.remove('sidebar-open');
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.dropdown')) {
+            dropdownToggles.forEach(toggle => {
+                const dropdownItem = toggle.closest('.dropdown');
+                dropdownItem.classList.remove('open');
+            });
         }
     });
+
+    // Add keyboard accessibility
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggle.click();
+            }
+        });
+    });
+
+    console.log('Dropdown toggles:', dropdownToggles);
 });
