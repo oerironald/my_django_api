@@ -74,3 +74,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     console.log('Dropdown toggles:', dropdownToggles);
 });
+
+
+// Add this to your dashboard.js file
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+});
