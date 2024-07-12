@@ -27,6 +27,7 @@ def add_product(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Product added successfully.')
             return redirect('pos:product_list')
     else:
         form = ProductForm()
@@ -147,6 +148,7 @@ def check_product_name(request):
         'exists': Product.objects.filter(name=name).exists()
     }
     return JsonResponse(data)
+
 
 
 def check_stock(request, pk):

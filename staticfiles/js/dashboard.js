@@ -97,4 +97,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     } else {
         console.error('Current year element not found');
     }
+
+    const navbarItems = document.querySelectorAll('.navbar-item');
+
+    navbarItems.forEach(item => {
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('tooltip');
+        tooltip.textContent = item.getAttribute('data-tooltip');
+        item.appendChild(tooltip);
+
+        item.addEventListener('mouseenter', () => {
+            const rect = item.getBoundingClientRect();
+            tooltip.style.top = `${rect.bottom + 5}px`;
+            tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+            tooltip.style.opacity = '1';
+        });
+
+        item.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+    });
+
 });

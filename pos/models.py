@@ -7,7 +7,7 @@ class Product(models.Model):
         ('m', 'Meters'),
     ]
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)  # Added unique=True
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit = models.CharField(max_length=10, choices=UNIT_CHOICES)

@@ -4,61 +4,165 @@
 
 {% block extra_head %}
 <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        padding: 20px 0;
+    }
+    #content {
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: white;
     }
     table, th, td {
-        border: 1px solid black;
+        border: 2px solid #ddd; /* Ensure the border is visible */
     }
     th, td {
         padding: 15px;
         text-align: left;
     }
     th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
         background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+    #search {
+        margin-bottom: 20px;
+    }
+    #searchBox {
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .summary {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    .actions a {
+        margin-right: 10px;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: white;
+        background-color: #4CAF50;
+        border-radius: 5px;
+        display: inline-block;
+    }
+    .actions a:hover {
+        background-color: #45a049;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<h1>Product List</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Total Quantity</th>
-            <th>Total Amount</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in products %}
+<div id="content">
+    <h1>Product List</h1>
+
+    <!-- Search Box -->
+    <div id="search">
+        <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for products..">
+    </div>
+
+    <!-- Table Start -->
+    <table id="productTable">
+        <!-- Table Headers -->
+        <thead>
             <tr>
-                <td>{{ item.product.name }}</td>
-                <td>${{ item.product.price }}</td>
-                <td>{{ item.product.quantity }} {{ item.product.unit }}</td>
-                <td>{{ item.product.get_unit_display }}</td>
-                <td>{{ item.product.quantity }}</td>
-                <td>${{ item.total_amount }}</td>
-                <td>
-                    <a href="{% url 'pos:update_product' item.product.pk %}">Update</a>
-                    <a href="{% url 'pos:delete_product' item.product.pk %}">Delete</a>
-                </td>
+                <th>Name</th> <!-- Column Header: Name -->
+                <th>Price</th> <!-- Column Header: Price -->
+                <th>Quantity</th> <!-- Column Header: Quantity -->
+                <th>Unit</th> <!-- Column Header: Unit -->
+                <th>Total Quantity</th> <!-- Column Header: Total Quantity -->
+                <th>Total Amount</th> <!-- Column Header: Total Amount -->
+                <th>Actions</th> <!-- Column Header: Actions -->
             </tr>
-        {% empty %}
-            <tr>
-                <td colspan="7">No products available.</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<h3>Total Quantity of All Products: {{ total_quantity }}</h3>
-<h3>Total Amount of All Products: ${{ total_amount }}</h3>
-<a href="{% url 'pos:add_product' %}">Add Product</a>
-<a href="{% url 'pos:process_payment' %}">Process Payment</a>
-<a href="{% url 'pos:add_customer' %}">Add Customer</a>
+        </thead>
+        <!-- Table Body -->
+        <tbody>
+            {% for item in products %}
+                <tr>
+                    <!-- Row Data -->
+                    <td>{{ item.product.name }}</td> <!-- Cell: Product Name -->
+                    <td>${{ item.product.price }}</td> <!-- Cell: Product Price -->
+                    <td>{{ item.product.quantity }} {{ item.product.unit }}</td> <!-- Cell: Product Quantity and Unit -->
+                    <td>{{ item.product.get_unit_display }}</td> <!-- Cell: Unit Display -->
+                    <td>{{ item.product.quantity }}</td> <!-- Cell: Total Quantity -->
+                    <td>${{ item.total_amount }}</td> <!-- Cell: Total Amount -->
+                    <!-- Action Links -->
+                    <td>
+                        <a href="{% url 'pos:update_product' item.product.pk %}">Update</a>
+                        <a href="{% url 'pos:delete_product' item.product.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <!-- Empty Row if No Products -->
+                <tr>
+                    <td colspan="7">No products available.</td> <!-- Cell: No Products Message -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- End of Table -->
+
+    <!-- Summary Section -->
+    <div class="summary">
+        <h3>Total Quantity of All Products: {{ total_quantity }}</h3>
+        <h3>Total Amount of All Products: ${{ total_amount }}</h3>
+    </div>
+
+    <!-- Action Links -->
+    <div class="actions">
+        <a href="{% url 'pos:add_product' %}">Add Product</a>
+        <a href="{% url 'pos:process_payment' %}">Process Payment</a>
+        <a href="{% url 'pos:add_customer' %}">Add Customer</a>
+    </div>
+</div>
+
+<!-- JavaScript for Search Functionality -->
+<script>
+    function searchTable() {
+        let input = document.getElementById("searchBox");
+        let filter = input.value.toLowerCase();
+        let table = document.getElementById("productTable");
+        let tr = table.getElementsByTagName("tr");
+        
+        for (let i = 1; i < tr.length; i++) {
+            let td = tr[i].getElementsByTagName("td");
+            let match = false;
+            for (let j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    if (td[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            if (match) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+</script>
 {% endblock %}

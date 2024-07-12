@@ -289,3 +289,80 @@ body, html {
         font-size: 1.2em;
     }
 }
+
+/* Add this to your existing dashboard.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #03105a;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-item {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.navbar-item i {
+    margin-right: 5px;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.1em;
+    }
+
+    .navbar-item {
+        font-size: 0.9em;
+        margin-left: 15px;
+    }
+
+    .navbar-item span {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 1em;
+    }
+
+    .navbar-item {
+        font-size: 0.8em;
+        margin-left: 10px;
+    }
+
+    .sidebar-toggle {
+        font-size: 1.2em;
+    }
+}

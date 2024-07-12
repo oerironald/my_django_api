@@ -6,6 +6,12 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'price', 'quantity', 'unit']
 
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Product.objects.filter(name__iexact=name).exists():
+            raise forms.ValidationError("A product with this name already exists.")
+        return name
+
 class IndividualProductForm(forms.Form):
     product = forms.ModelChoiceField(queryset=Product.objects.all())
     quantity = forms.DecimalField(max_digits=10, decimal_places=2)

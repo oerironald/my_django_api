@@ -3,37 +3,50 @@
 {% block title %}Add Product{% endblock %}
 
 {% block extra_head %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#id_name').on('blur', function() {
-                var productName = $(this).val().trim();
-                if (productName !== '') {
-                    $.ajax({
-                        url: "{% url 'pos:check_product_name' %}",
-                        data: {
-                            'name': productName
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.exists) {
-                                alert('Product with this name already exists!');
-                                $('#id_name').val('').focus();
-                            }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#id_name').on('blur', function() {
+            var productName = $(this).val().trim();
+            if (productName !== '') {
+                $.ajax({
+                    url: "{% url 'pos:check_product_name' %}",
+                    data: {
+                        'name': productName
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.exists) {
+                            alert('Product with this name already exists!');
+                            $('#id_name').val('').focus();
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
         });
-    </script>
+    });
+</script>
 {% endblock %}
 
 {% block content %}
     <h1>Add Product</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }} {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
         <button type="submit">Add Product</button>
     </form>
-    <a href="{% url 'pos:product_list' %}">Back to Product Lists</a>
+    <a href="{% url 'pos:product_list' %}">Back to Product List</a>
 {% endblock %}
