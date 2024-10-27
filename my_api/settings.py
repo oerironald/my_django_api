@@ -205,13 +205,13 @@ ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type
 AUTH_USER_MODEL = 'bank.User'
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Desphixs",
-    "site_header": "Desphixs",
-    "site_brand": "Desphixs ",
+    "site_title": "Jogoo",
+    "site_header": "Jogoo",
+    "site_brand": "Jogoo ",
     "site_icon": "assets/logo/favicon.png",
     "site_logo": "assets/logo/favicon.png",
-    "welcome_sign": "Welcome To Desphixs",
-    "copyright": "Desphixs",
+    "welcome_sign": "Welcome To Ronald",
+    "copyright": "Ronald",
     "user_avatar": "images/photos/logo.jpg",
     "topmenu_links": [
         {"name": "Dashboard", "url": "home", "permissions": ["auth.view_user"]},
