@@ -17,4 +17,4 @@ django-cors-headers==3.8.0
 matplotlib
 pandas
 plotly
-djang-jazzmin
+djang-jazzmin==3.0.1
