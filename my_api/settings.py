@@ -25,14 +25,20 @@ OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
 SECRET_KEY = 'django-insecure-@)&dtdq_y9)j@v*txgj#8%6r)^g+ae1fr=(5bk=iu_vmvw6@r6'
 
 # SECURITY WARNINGcanada/static: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True 
 
 ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost:8000',
+    'http://localhost:8000',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +62,9 @@ INSTALLED_APPS = [
     'pos',
     'dashboard',
     'bank',
+    'hotel',
+    'userauths',
+    
     
     
     
@@ -192,3 +201,75 @@ API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequ
 ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
 AUTH_USER_MODEL = 'bank.User'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Desphixs",
+    "site_header": "Desphixs",
+    "site_brand": "Desphixs ",
+    "site_icon": "assets/logo/favicon.png",
+    "site_logo": "assets/logo/favicon.png",
+    "welcome_sign": "Welcome To Desphixs",
+    "copyright": "Desphixs",
+    "user_avatar": "images/photos/logo.jpg",
+    "topmenu_links": [
+        {"name": "Dashboard", "url": "home", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": [
+        "add_model_name_here"
+    ],
+    "icons": {
+        "admin.LogEntry": "fas fa-file",
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "userauths.User": "fas fa-user",
+        "userauths.Profile":"fas fa-address-card",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-arrow-circle-right",
+    "related_modal_active": False,
+    
+    "custom_js": None,
+    "show_ui_builder": True,
+    
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
+    },
+}
+
+# Jazzmin UI Tweaks
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": True,
+    "brand_small_text": False,
+    "brand_colour": "navbar-indigo",
+    "accent": "accent-olive",
+    "navbar": "navbar-indigo navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-indigo",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
