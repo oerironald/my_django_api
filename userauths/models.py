@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 from shortuuid.django_fields import ShortUUIDField
-
 
 GENDER_CHOICES = (
     ("Female", "Female"),
@@ -35,7 +35,7 @@ class User(AbstractUser):
         return self.username
 
 class Profile(models.Model):
-    pid = ShortUUIDField(length=7, max_length=25, alphabet="abcdefghijklmnopqrstunoyz123")
+    pid = ShortUUIDField(length=7, max_length=25)
     image = models.FileField(upload_to=user_directory_path, default="default.jpg", null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=500, null=True, blank=True)
@@ -60,17 +60,12 @@ class Profile(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        if self.full_name:
-            return f"{self.user.username}"
-        
+        return self.user.username if self.user else "Profile"
 
 # Signal to create or update the Profile when the User instance is saved
-def create_user_profile(sender, instance, created, **kwargs):
+@receiver(post_save, sender=User)
+def create_or_save_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
-def save_user_profile(sender, instance, **kwargs):
-    instance.Profile.save()
-
-post_save.connect(create_user_profile, sender=User)
-post_save.connect(save_user_profile, sender=User)
+    else:
+        instance.profile.save()

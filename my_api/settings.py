@@ -202,7 +202,7 @@ MPESA_CONSUMER_SECRET = 'UM8yA9Op0O59Yrvi'
 API_RESOURCE_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
 ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
-AUTH_USER_MODEL = 'bank.User'
+AUTH_USER_MODEL = 'userauths.User'
 
 JAZZMIN_SETTINGS = {
     'site_header': "The_One",
