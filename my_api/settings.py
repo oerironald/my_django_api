@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost:8000',
     'http://localhost:8000',
+    'https://ap-daraja.onrender.com',
+    'http://ap-daraja.onrender.com',
 ]
 
 
