@@ -1,0 +1,11 @@
+{% extends 'hotel/base.html' %}
+
+{% block content %}
+<h1>Hotel List</h1>
+<ul>
+    {% for hotel in hotels %}
+        <li>{{ hotel.name }} - {{ hotel.location }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'hotel:create_hotel' %}">Add Hotel</a>
+{% endblock %}
