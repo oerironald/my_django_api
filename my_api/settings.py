@@ -205,45 +205,56 @@ ACCESS_TOKEN_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type
 AUTH_USER_MODEL = 'bank.User'
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Jogoo",
-    "site_header": "Jogoo",
-    "site_brand": "Jogoo ",
-    "site_icon": "assets/logo/favicon.png",
-    "site_logo": "assets/logo/favicon.png",
-    "welcome_sign": "Welcome To Ronald",
-    "copyright": "Ronald",
-    "user_avatar": "images/photos/logo.jpg",
+    'site_header': "The_One",
+    'site_brand': "Your #1 Store.",
+    'site_logo': "/images/logo.png",
+    'copyright':  "All Rights",
+    "welcome_sign": "Welcome to The_One, Login Now.",
     "topmenu_links": [
-        {"name": "Dashboard", "url": "home", "permissions": ["auth.view_user"]},
-        {"model": "auth.User"},
+
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Company", "url": "/admin/addons/company/"},
+        {"name": "Users", "url": "/admin/userauths/user/"},
+
+        {"model": "AUTH_USER_MODEL.User"},
     ],
-    "show_sidebar": True,
-    "navigation_expanded": True,
+
     "order_with_respect_to": [
-        "add_model_name_here"
+        "hotel",
+        "hotel.Hotel",
+        "hotel.Room",
+        "hotel.Booking",
+        "hotel.BookingDetail",
+        "hotel.Guest",
+        "hotel.RoomServices",
+        "userauths"
+        "addons",
     ],
+    
     "icons": {
         "admin.LogEntry": "fas fa-file",
+
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
+
         "userauths.User": "fas fa-user",
         "userauths.Profile":"fas fa-address-card",
+
+        "hotel.Hotel": "fas fa-th",
+        "hotel.Booking":"fas fa-calendar-week",
+        "hotel.BookingDetail":"fas fa-calendar-alt",
+        "hotel.Guest":"fas fa-user",
+        "hotel.Room":"fas fa-bed",
+        "hotel.RoomServices":"fas fa-user-cog",
+        "hotel.Notification":"fas fa-bell",
+        "hotel.Coupon":"fas fa-tag",
+        "hotel.Bookmark":"fas fa-heart",
     },
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-arrow-circle-right",
-    "related_modal_active": False,
-    
-    "custom_js": None,
-    "show_ui_builder": True,
-    
-    "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {
-        "auth.user": "collapsible",
-        "auth.group": "vertical_tabs",
-    },
+
+
+    "show_ui_builder" : True
 }
 
-# Jazzmin UI Tweaks
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
     "footer_small_text": False,
@@ -264,11 +275,11 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "default",
-    "dark_mode_theme": None,
+    "theme": "cyborg",
+    "dark_mode_theme": "cyborg",
     "button_classes": {
-        "primary": "btn-outline-primary",
-        "secondary": "btn-outline-secondary",
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
         "info": "btn-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
